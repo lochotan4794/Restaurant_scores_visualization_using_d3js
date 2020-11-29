@@ -1,0 +1,369 @@
+<!-- Code from d3-graph-gallery.com -->
+<!DOCTYPE html>
+<meta charset="utf-8" />
+
+<!-- Load d3.js -->
+<script src="https://d3js.org/d3.v6.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+
+<!-- Create a div where the graph will take place -->
+<div id="my_dataviz"></div>
+
+<head> </head>
+
+<body>
+  <div class="wrapper" style="display: flex; flex-direction: row;">
+    <div id="map"></div>
+    <div class="filter" style="display: flex; flex-direction: column;">
+      <div style="width: 100%; height: 30%;"></div>
+      <div style="width: 100%; height: 70%;">
+        <h2>ADVANCED DATA VISUALIZATION</h2>
+        <h3>Student Name: HO TAN LOC</h3>
+        <h3>Student Code: 19C11030</h3>
+        <p><i>* Drag on map to show 2 circle filter and then click to apply *</i></p>
+        <p><i>* The display data is the filtered result by all conditions *</i></p>
+        <h3>Choose the level of risk ?</h3>
+        <select style="width: 50%; height: 5%;" name="dob-day" onchange="myFunc()" class="risk_category">
+          <option value="Low Risk">Low Risk</option>
+          <option value="Moderate Risk">Moderate Risk</option>
+          <option value="High Risk">High Risk</option>
+        </select>
+        <h3>Which is occurence interval ?</h3>
+        <input type="text" name="daterange" value="01/01/2000 - 01/15/2020"  style="width: 50%; height: 5%;"/>
+        <h3>Select the top reason ?</h3>
+        <select name="dob-day" onchange="myFunc()" class="category" style="width: 50%; height: 5%;">
+          <option value="Food safety certificate or food handler card not available">Food safety certificate or food
+            handler card not available</option>
+          <option value="Unclean nonfood contact surfaces">Unclean nonfood contact surfaces</option>
+          <option value="Unclean or degraded floors walls or ceilings">Unclean or degraded floors walls or ceilings
+          </option>
+          <option value="Moderate risk vermin infestation">Moderate risk vermin infestation</option>
+          <option value="Inadequate and inaccessible handwashing facilities">Inadequate and inaccessible handwashing
+            facilities</option>
+          <option value="Unapproved or unmaintained equipment or utensils">Unapproved or unmaintained equipment or
+            utensils
+          </option>
+          <option value="Foods not protected from contamination">Foods not protected from contamination</option>
+          <option value="High risk food holding temperature">High risk food holding temperature</option>
+          <option value="Improper thawing methods">Improper thawing methods</option>
+          <option value="Improper storage of equipment utensils or linens">Improper storage of equipment utensils or
+            linens
+          </option>
+          <option value="Moderate risk food holding temperature">Moderate risk food holding temperature</option>
+          <option value="No thermometers or uncalibrated thermometers">No thermometers or uncalibrated thermometers
+          </option>
+          <option value="High risk vermin infestation">High risk vermin infestation</option>
+          <option value="Improper food storage">Improper food storage</option>
+          <option value="Improper storage use or identification of toxic substances">Improper storage use or
+            identification of toxic substances</option>
+          <option value="Improper or defective plumbing">Improper or defective plumbing</option>
+          <option value="Inadequately cleaned or sanitized food contact surfaces">Inadequately cleaned or sanitized food
+            contact surfaces</option>
+          <option value="Permit license or inspection report not posted">Permit license or inspection report not posted
+          </option>
+          <option value="Inadequate ventilation or lighting">Inadequate ventilation or lighting</option>
+          <option value="Wiping cloths not clean or properly stored or inadequate sanitizer">Wiping cloths not clean or
+            properly stored or inadequate
+            sanitizer</option>
+          <option value="Inadequate food safety knowledge or lack of certified food safety manager">Inadequate food safety
+            knowledge or lack of certified food safety
+            manager</option>
+          <option value="Improper food labeling or menu misrepresentation">Improper food labeling or menu
+            misrepresentation
+          </option>
+          <option value="Insufficient hot water or running water">Insufficient hot water or running water</option>
+          <option value="Contaminated or adulterated food">Contaminated or adulterated food</option>
+          <option value="Non service animal">Non service animal</option>
+          <option value="No plan review or Building Permit">No plan review or Building Permit</option>
+          <option value="Low risk vermin infestation">Low risk vermin infestation</option>
+          <option value="Unclean or unsanitary food contact surfaces">Unclean or unsanitary food contact surfaces</option>
+          <option value="Other low risk violation">Other low risk violation</option>
+          <option value="Noncompliance with HAACP plan or variance">Noncompliance with HAACP plan or variance</option>
+          <option value="Unclean hands or improper use of gloves">Unclean hands or improper use of gloves</option>
+          <option value="Improper cooling methods">Improper cooling methods</option>
+          <option value="Employee eating or smoking">Employee eating or smoking</option>
+          <option value="Inadequate warewashing facilities or equipment">Inadequate warewashing facilities or equipment
+          </option>
+          <option value="Inadequate procedures or records for time as a public health control">Inadequate procedures or
+            records for time as a public health
+            control</option>
+          <option value="Unclean unmaintained or improperly constructed toilet facilities">Unclean unmaintained or
+            improperly constructed toilet
+            facilities</option>
+          <option value="Inadequate dressing rooms or improper storage of personal items">Inadequate dressing rooms or
+            improper storage of personal
+            items</option>
+          <option value="Unsanitary employee garments hair or nails">Unsanitary employee garments hair or nails</option>
+          <option value="Improper reheating of food">Improper reheating of food</option>
+          <option value="Food in poor condition">Food in poor condition</option>
+          <option value="No hot water or running water">No hot water or running water</option>
+          <option value="Unpermitted food facility">Unpermitted food facility</option>
+          <option value="Inadequate or unsanitary refuse containers or area or no garbage service">Inadequate or
+            unsanitary refuse containers or area or no garbage
+            service</option>
+          <option value="Unapproved food source">Unapproved food source</option>
+          <option value="Inadequate sewage or wastewater disposal">Inadequate sewage or wastewater disposal</option>
+          <option value="Unapproved  living quarters in food facility">Unapproved living quarters in food facility
+          </option>
+          <option value="Noncompliance with shell fish tags or display">Noncompliance with shell fish tags or display
+          </option>
+          <option value="Reservice of previously served foods">Reservice of previously served foods</option>
+          <option value="Unauthorized or unsafe use of time as a public health control measure">Unauthorized or unsafe use
+            of time as a public health control
+            measure</option>
+        </select>
+      </div>
+    </div>
+  </div>
+  <script>
+    var width = 950;
+    height = width;
+    var projection = d3
+      .geoMercator()
+      .center([-122.433701, 37.767683])
+      .scale(225000)
+      .translate([width / 2, height / 2]);
+
+    function degreesToRadians(degrees) {
+      return (degrees * Math.PI) / 180;
+    }
+
+    function distanceInKmBetweenEarthCoordinates(lat1, lon1, lat2, lon2) {
+      var earthRadiusKm = 6371;
+
+      var dLat = degreesToRadians(lat2 - lat1);
+      var dLon = degreesToRadians(lon2 - lon1);
+
+      lat1 = degreesToRadians(lat1);
+      lat2 = degreesToRadians(lat2);
+
+      var a =
+        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.sin(dLon / 2) *
+        Math.sin(dLon / 2) *
+        Math.cos(lat1) *
+        Math.cos(lat2);
+      var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+      return earthRadiusKm * c;
+    }
+
+    var filters = [
+      { 'active': false, 'x': 0, 'y': 0, 'r': 0 },
+      { 'active': false, 'x': 0, 'y': 0, 'r': 0 },
+    ];
+
+    var dragSeq = [1, 2, 3, 4];
+    var dragId = dragSeq[0];
+
+    function computeRadius(x1, y1, x2, y2) {
+      const distX = x1 - x2;
+      const distY = y1 - y2;
+      return Math.sqrt(Math.pow(distX, 2) + Math.pow(distY, 2));
+    }
+
+    function checkInCircle(item, x, y, r) {
+      var cors = projection([
+        parseFloat(item["business_longitude"]),
+        parseFloat(item["business_latitude"]),
+      ]);
+      if (computeRadius(cors[0], cors[1], x, y) <= ( r)) {
+
+        return true;
+      }
+      return false;
+    }
+
+    var applyMask = false;
+
+    function handleMouseOver(d, i) {
+      d3.select(this)
+        .transition()
+        .duration(1)
+        .attr("r", 20);
+    }
+
+    function handleMouseOut(d, i) {
+      d3.select(this)
+        .transition()
+        .duration(1)
+        .attr("r", 4);
+    }
+
+    var startX = 0;
+    var startY = 0;
+
+    var drag = d3
+      .drag()
+      .on("start", function (d) {
+        startX = d.x;
+        startY = d.y;
+      })
+      .on("end", function (d) {
+        if (dragId == dragSeq[0] && filters[0].active == false) {
+          filters[0].x = startX;
+          filters[0].y = startY;
+          filters[0].r = computeRadius(startX, startY, d.x, d.y);
+          svg
+            .append("circle")
+            .attr("cx", filters[0].x)
+            .attr("cy", filters[0].y)
+            .style('fill', '#f46d43')
+            .attr('opacity', 0.3)
+            .attr("r", 0)
+            .transition()
+            .attr("r", filters[0].r)
+            ;
+          dragId = dragSeq[1];
+          filters[0].active = true;
+        } else if (filters[1].active == false) {
+          filters[1].x = startX;
+          filters[1].y = startY;
+          filters[1].r = computeRadius(startX, startY, d.x, d.y);
+          svg
+            .append("circle")
+            .attr("cx", filters[1].x)
+            .attr("cy", filters[1].y)
+            .style('fill', '#f46d43')
+            .attr('opacity', 0.5)
+            .attr("r", 0)
+            .transition()
+            .attr("r", filters[1].r);
+          dragId = dragSeq[0];
+          filters[1].active = true;
+        }
+      });
+
+    var svg = d3
+      .select("#map")
+      .append("svg")
+      .attr("width", width)
+      .attr("height", height)
+      .call(drag)
+      .on('click', function (d) {
+        myFunc();
+      });
+
+    svg
+      .append("image")
+      .attr("width", width)
+      .attr("height", height)
+      .attr("xlink:href", "data/sf-map.svg")
+      .style("fill", "transparent");
+
+    var coordina = [];
+
+    function checkCondition(item, start, end, level, cate) {
+      if (item["risk_category"] == level) {
+        if (item["violation_description"] == cate) {
+          if (dateCompare(item["inspection_date"], start, end)) {
+            if (
+              (filters[0].active == true && filters[1].active == true) &&
+              (!checkInCircle(item, filters[0].x, filters[0].y, filters[0].r) ||
+                !checkInCircle(item, filters[1].x, filters[1].y, filters[1].r))
+            ) {
+              return false;
+            }
+            return true;
+          }
+        }
+      }
+      return false;
+    }
+
+    var start_date_gbl = new Date("2000-01-01");
+    var end_date_gbl = new Date("2020-01-01");
+
+    function dateCompare(inspectDay, start, end) {
+      var dates = inspectDay.split("/");
+      var day = "";
+      var mon = "";
+      if (parseInt(dates[0]) < 10) {
+        day = "0" + dates[0];
+      } else {
+        day = dates[0];
+      }
+      if (parseInt(dates[1]) < 10) {
+        mon = "0" + dates[1];
+      } else {
+        mon = dates[1];
+      }
+      var tmp = new Date(
+        (parseInt(dates[2]) + 2000).toString() + "-" + day + "-" + mon
+      );
+
+      if (tmp >= start && tmp <= end) {
+        return true;
+      }
+      return false;
+    }
+
+    function myFunc() {
+      var risk = document.getElementsByClassName("risk_category")[0].value;
+      var cate = document.getElementsByClassName("category")[0].value;
+
+      d3.csv("restaurant_scores.csv").then(function (data) {
+        // d3.selectAll(".node").remove();
+        coordina = [];
+        $('svg circle').remove();
+        for (i = 0; i < 5796; i++) {
+          if (
+            checkCondition(
+              data[i],
+              start_date_gbl,
+              end_date_gbl,
+              risk,
+              cate
+            )
+          ) {
+            this.coordina.push(
+              projection([
+                parseFloat(data[i]["business_longitude"]),
+                parseFloat(data[i]["business_latitude"]),
+              ])
+            );
+          }
+        }
+        filters[0].active = false;
+        filters[1].active = false;
+        var container = svg
+          .selectAll("container")
+          .data(coordina)
+          .enter()
+          .append("circle")
+          .attr("cx", function (d) {
+            return d[0];
+          })
+          .attr("cy", function (d) {
+            return d[1];
+          })
+          .attr("r", 3)
+          .style("fill", "green")
+          .on("click", function (d) {
+            d3.select(this).style("fill", "red");
+          });
+      });
+    }
+
+    $(document).ready(function () {
+      myFunc();
+    });
+  </script>
+  <script>
+    $(function () {
+      $('input[name="daterange"]').daterangepicker(
+        {
+          opens: "left",
+        },
+        function (start, end, label) {
+          start_date_gbl = start["_d"];
+          end_date_gbl = end["_d"];
+          myFunc();
+        }
+      );
+    });
+  </script>
+</body>
